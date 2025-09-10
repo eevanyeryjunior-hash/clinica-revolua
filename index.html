@@ -30,17 +30,8 @@
       text-align: center;
       border-bottom: 2px solid #1DB954;
     }
-    header h1 {
-      color: #1DB954;
-      font-size: 2.8rem;
-      margin-bottom: 6px;
-      letter-spacing: 2px;
-    }
-    header p {
-      color: #bbb;
-      font-size: 1rem;
-      font-weight: 600;
-    }
+    header h1 { color: #1DB954; font-size: 2.8rem; margin-bottom: 6px; letter-spacing: 2px; }
+    header p { color: #bbb; font-size: 1rem; font-weight: 600; }
     nav {
       background-color: rgba(20, 20, 20, 0.9);
       padding: 10px 0;
@@ -57,6 +48,8 @@
       color: #ccc;
     }
     nav ul li:hover { color: #1DB954; cursor: pointer; transition: color 0.3s ease; }
+    nav ul li a { color: #ccc; transition: color 0.3s ease; text-decoration: none; }
+    nav ul li a:hover { color: #1DB954; }
     main { flex: 1; max-width: 1100px; margin: 0 auto 50px; padding: 0 20px; }
     .doutoras {
       display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; margin-bottom: 50px;
@@ -86,12 +79,7 @@
       margin-bottom: 50px;
       color: #ddd;
     }
-    .consultas h2 {
-      color: #1DB954;
-      margin-bottom: 20px;
-      font-size: 2rem;
-      text-align: center;
-    }
+    .consultas h2 { color: #1DB954; margin-bottom: 20px; font-size: 2rem; text-align: center; }
     .consultas ul {
       list-style: none;
       display: grid;
@@ -122,12 +110,8 @@
       margin: 0 auto 60px;
       color: #ddd;
     }
-    .agendamento h2 {
-      color: #1DB954; margin-bottom: 20px; text-align: center; font-size: 2rem;
-    }
-    .agendamento form {
-      display: flex; flex-direction: column; gap: 15px;
-    }
+    .agendamento h2 { color: #1DB954; margin-bottom: 20px; text-align: center; font-size: 2rem; }
+    .agendamento form { display: flex; flex-direction: column; gap: 15px; }
     .agendamento label { font-weight: 600; }
     .agendamento input, .agendamento select {
       padding: 10px 12px;
@@ -153,10 +137,7 @@
       text-align: center;
     }
     #contato h2 { color: #1DB954; margin-bottom: 20px; font-size: 2rem; }
-    .mapa iframe {
-      width: 100%; height: 320px; border-radius: 15px;
-      box-shadow: 0 4px 15px #000000cc; border: none;
-    }
+    .mapa iframe { width: 100%; height: 320px; border-radius: 15px; box-shadow: 0 4px 15px #000000cc; border: none; }
     #contato p { margin: 8px 0; font-weight: 600; }
     #contato a { color: #1DB954; text-decoration: none; font-weight: 600; }
     #contato a:hover { text-decoration: underline; }
@@ -178,8 +159,6 @@
     a:hover { text-decoration: underline; color: #17a34a; }
     .doutora a[href*="wa.me"] { color: #25D366; }
     .doutora a[href*="wa.me"]:hover { color: #1DA851; }
-    nav ul li a { color: #ccc; transition: color 0.3s ease; }
-    nav ul li a:hover { color: #1DB954; }
   </style>
 </head>
 <body>
@@ -216,9 +195,10 @@
         <p>"Amo viajar, estar com minha família e amigos"</p>
         <p>Casada e mãe de Kauê</p>
         <p>"Amo cuidar de pessoas, minha missão e propósito"</p>
-        <p>WhatsApp: <a href="https://wa.me/558488731827" target="_blank">+55 84 98873-1827</a></p>
+        <p>WhatsApp: <a href="https://wa.me/558488731827" target="_blank">+55 84 8873-1827</a></p>
       </div>
     </section>
+
     <!-- Consultas -->
     <section class="consultas" id="consultas">
       <h2>Tipos de Consultas</h2>
@@ -231,10 +211,11 @@
         <li>Massoterapia</li>
       </ul>
     </section>
+
     <!-- Agendamento -->
     <section class="agendamento" id="agendamento">
       <h2>Agende sua Consulta</h2>
-      <form id="form-agendamento" novalidate>
+      <form id="form-agendamento" action="YOUR_FORMSPREE_ENDPOINT" method="POST">
         <label for="nome">Nome Completo:</label>
         <input type="text" id="nome" name="nome" required placeholder="Seu nome completo" />
         <label for="email">E-mail:</label>
@@ -257,25 +238,27 @@
         <div class="msg" id="msg"></div>
       </form>
     </section>
+
     <!-- Contato -->
     <section id="contato">
       <h2>Contato</h2>
-      <p>Telefone geral: <a href="tel:+55 84 92147-4232">(84) 992147-4232</a></p>
+      <p>Telefone geral: <a href="tel:+55849921474232">(84) 92147-4232</a></p>
       <p>E-mail: <a href="mailto:contato@clinicarevolua.com">contato@clinicarevolua.com</a></p>
       <p>Instagram: <a href="https://www.instagram.com/revoluafisio/" target="_blank">@revoluafisio</a></p>
       <div class="mapa">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.034273018968!2d-35.24262022507971!3d-5.745954994347819!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7b255675168c8f5%3A0x28fffc1ecaf88a2f!2sAv.%20Gov.%20Ant%C3%B4nio%20de%20Melo%20e%20Souza%2C%2020%20-%20Potengi%2C%20Natal%20-%20RN%2C%2059125-090!5e0!3m2!1spt-BR!2sbr!4v1725997480000!5m2!1spt-BR!2sbr"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.0326889290333!2d-35.2428432!3d-5.7460899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7b255675168c8f5%3A0x8dd4e8e7b1f1d7b!2sAv.%20Gov.%20Ant%C3%B4nio%20de%20Melo%20e%20Souza%20-%20Potengi%2C%20Natal%20-%20RN%2C%2059125-090!5e0!3m2!1spt-BR!2sbr!4v1694250000000!5m2!1spt-BR!2sbr"
           allowfullscreen
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade">
+          loading="lazy">
         </iframe>
       </div>
     </section>
   </main>
+
   <footer>
-    &copy; 2025 Clínica REVOLUA - Todos os direitos reservados.
+    &copy; 2025 REVOLUA - Todos os direitos reservados.
   </footer>
+
   <script>
     const inputData = document.getElementById('data');
     const hoje = new Date().toISOString().split('T')[0];
@@ -284,26 +267,41 @@
     const form = document.getElementById('form-agendamento');
     const msg = document.getElementById('msg');
 
-    form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', async function(event) {
       event.preventDefault();
+
       if (!form.nome.value.trim() || !form.email.value.trim() ||
           !form.consulta.value || !form.data.value || !form.hora.value) {
         msg.textContent = 'Por favor, preencha todos os campos.';
         msg.style.color = 'red';
         return;
       }
+
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(form.email.value)) {
         msg.textContent = 'Por favor, insira um e-mail válido.';
         msg.style.color = 'red';
         return;
       }
-      msg.textContent = 'Agendamento realizado com sucesso! Entraremos em contato.';
-      msg.style.color = '#1DB954';
-      form.reset();
-      inputData.setAttribute('min', hoje);
+
+      // Envia para Formspree
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        msg.textContent = 'Agendamento realizado com sucesso! Verifique seu e-mail.';
+        msg.style.color = '#1DB954';
+        form.reset();
+        inputData.setAttribute('min', hoje);
+      } else {
+        msg.textContent = 'Erro ao enviar o agendamento. Tente novamente.';
+        msg.style.color = 'red';
+      }
     });
   </script>
 </body>
 </html>
-
