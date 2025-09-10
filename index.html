@@ -4,34 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>REVOLUA - Agendamento Avançado</title>
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body, html { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#121212; color:#ddd; }
-  header { text-align:center; padding:20px; background:rgba(25,25,25,0.95); border-bottom:2px solid #1DB954; }
-  header h1 { color:#1DB954; font-size:2.5rem; }
-  header p { color:#bbb; margin-top:5px; }
-  main { max-width:900px; margin:30px auto; padding:0 15px; }
-  .agendamento { background:rgba(20,20,20,0.95); padding:20px; border-radius:15px; box-shadow:0 8px 25px #000; margin-bottom:30px; }
-  .agendamento h2 { color:#1DB954; text-align:center; margin-bottom:20px; font-size:2rem; }
-  .calendario { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; margin-bottom:20px; }
-  .dia { padding:10px; background:#222; text-align:center; border-radius:8px; cursor:pointer; transition:all 0.2s ease; }
-  .dia:hover { background:#1DB954; color:#121212; }
-  .dia.inativo { background:#444; cursor:default; color:#888; }
-  .horarios { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:15px; }
-  .hora { padding:8px 12px; border-radius:8px; background:#222; cursor:pointer; transition:all 0.2s ease; }
-  .hora:hover { background:#1DB954; color:#121212; }
-  .hora.ocupada { background:#444; cursor:default; color:#888; }
-  form input, form select, form button { width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:none; background:#333; color:#eee; }
-  form button { background:#1DB954; font-weight:700; cursor:pointer; }
-  form button:hover { background:#17a34a; }
-  .msg { text-align:center; font-weight:700; margin-top:10px; }
-  #contato { background:rgba(25,25,25,0.95); padding:20px; border-radius:15px; box-shadow:0 8px 25px #000; margin-bottom:30px; text-align:center; }
-  #contato h2 { color:#1DB954; margin-bottom:15px; }
-  .mapa iframe { width:100%; height:320px; border-radius:12px; border:none; box-shadow:0 4px 15px #000; }
-  #contato p { margin:5px 0; font-weight:600; }
-  #contato a { color:#1DB954; text-decoration:none; font-weight:600; }
-  #contato a:hover { text-decoration:underline; }
-</style>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 <header>
@@ -79,102 +52,8 @@
     </div>
   </section>
 </main>
-
-<script>
-// Datas e horários
-const hoje = new Date();
-const diasSemana = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
-const horarios = [];
-for(let h=8; h<=19; h++) horarios.push(h.toString().padStart(2,'0')+":00");
-
-let agendamentos = {}; // { '2025-09-10': ['08:00','09:00'] }
-
-const calendario = document.getElementById('calendario');
-const horariosDiv = document.getElementById('horarios');
-let dataSelecionada = null;
-let horaSelecionada = null;
-
-function gerarCalendario(){
-  calendario.innerHTML='';
-  for(let i=0;i<30;i++){
-    const dia = new Date();
-    dia.setDate(hoje.getDate()+i);
-    const diaStr = dia.toISOString().split('T')[0];
-    const div = document.createElement('div');
-    div.classList.add('dia');
-    div.dataset.date=diaStr;
-    div.textContent = dia.getDate();
-    div.title=diasSemana[dia.getDay()];
-    div.addEventListener('click',()=>selecionarDia(div));
-    calendario.appendChild(div);
-  }
-}
-gerarCalendario();
-
-function selecionarDia(div){
-  if(div.classList.contains('inativo')) return;
-  document.querySelectorAll('.dia').forEach(d=>d.classList.remove('selecionado'));
-  div.classList.add('selecionado');
-  dataSelecionada=div.dataset.date;
-  gerarHorarios(dataSelecionada);
-}
-
-function gerarHorarios(data){
-  horariosDiv.innerHTML='';
-  horarios.forEach(h=>{
-    const btn = document.createElement('div');
-    btn.textContent=h;
-    btn.classList.add('hora');
-    if(agendamentos[data] && agendamentos[data].includes(h)){
-      btn.classList.add('ocupada');
-    } else {
-      btn.addEventListener('click',()=>selecionarHora(btn));
-    }
-    horariosDiv.appendChild(btn);
-  });
-}
-
-function selecionarHora(btn){
-  horaSelecionada=btn.textContent;
-  document.querySelectorAll('.hora').forEach(h=>h.classList.remove('selecionado'));
-  btn.classList.add('selecionado');
-}
-
-// Formulário
-const form = document.getElementById('form-agendamento');
-const msg = document.getElementById('msg');
-form.addEventListener('submit',e=>{
-  e.preventDefault();
-  const nome = document.getElementById('nome').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const consulta = document.getElementById('consulta').value;
-
-  if(!nome || !email || !consulta || !dataSelecionada || !horaSelecionada){
-    msg.textContent="Preencha todos os campos, dia e horário!";
-    msg.style.color='red';
-    return;
-  }
-
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    msg.textContent="Insira um e-mail válido!";
-    msg.style.color='red';
-    return;
-  }
-
-  if(!agendamentos[dataSelecionada]) agendamentos[dataSelecionada]=[];
-  agendamentos[dataSelecionada].push(horaSelecionada);
-  gerarHorarios(dataSelecionada);
-
-  const numero = "5584921474232";
-  const texto=`Agendamento:%0ANome: ${nome}%0AEmail: ${email}%0AConsulta: ${consulta}%0AData: ${dataSelecionada}%0AHora: ${horaSelecionada}`;
-  window.open(`https://wa.me/${numero}?text=${texto}`, '_blank');
-
-  msg.textContent="Agendamento enviado via WhatsApp!";
-  msg.style.color='#1DB954';
-  form.reset();
-  dataSelecionada=null;
-  horaSelecionada=null;
-});
-</script>
+<script src="script.js"></script>
 </body>
 </html>
+
+
