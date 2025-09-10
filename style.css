@@ -1,28 +1,44 @@
-* { margin:0; padding:0; box-sizing:border-box; }
-body, html { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#121212; color:#ddd; }
-header { text-align:center; padding:20px; background:rgba(25,25,25,0.95); border-bottom:2px solid #1DB954; }
-header h1 { color:#1DB954; font-size:2.5rem; }
-header p { color:#bbb; margin-top:5px; }
-main { max-width:900px; margin:30px auto; padding:0 15px; }
-.agendamento { background:rgba(20,20,20,0.95); padding:20px; border-radius:15px; box-shadow:0 8px 25px #000; margin-bottom:30px; }
-.agendamento h2 { color:#1DB954; text-align:center; margin-bottom:20px; font-size:2rem; }
-.calendario { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; margin-bottom:20px; }
-.dia { padding:10px; background:#222; text-align:center; border-radius:8px; cursor:pointer; transition:all 0.2s ease; }
-.dia:hover { background:#1DB954; color:#121212; }
-.dia.inativo { background:#444; cursor:default; color:#888; }
-.horarios { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-bottom:15px; }
-.hora { padding:8px 12px; border-radius:8px; background:#222; cursor:pointer; transition:all 0.2s ease; }
-.hora:hover { background:#1DB954; color:#121212; }
-.hora.ocupada { background:#444; cursor:default; color:#888; }
-form input, form select, form button { width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:none; background:#333; color:#eee; }
-form button { background:#1DB954; font-weight:700; cursor:pointer; }
-form button:hover { background:#17a34a; }
-.msg { text-align:center; font-weight:700; margin-top:10px; }
-
-#contato { background:rgba(25,25,25,0.95); padding:20px; border-radius:15px; box-shadow:0 8px 25px #000; margin-bottom:30px; text-align:center; }
-#contato h2 { color:#1DB954; margin-bottom:15px; }
-.mapa iframe { width:100%; height:320px; border-radius:12px; border:none; box-shadow:0 4px 15px #000; }
-#contato p { margin:5px 0; font-weight:600; }
-#contato a { font-weight:700; text-decoration:none; }
-#contato a[href^="tel"] { color: #00BFFF; } /* WhatsApp/telefone azul visível */
-#contato a[href^="tel"]:hover { color: #1DA851; text-decoration:underline; }
+/* Reset */
+*{margin:0;padding:0;box-sizing:border-box;}
+body, html{font-family:'Segoe UI', Tahoma, Geneva, Verdana,sans-serif;background:#121212;color:#ddd;}
+header{padding:20px;text-align:center;background:rgba(25,25,25,0.95);border-bottom:2px solid #1DB954;}
+header h1{color:#1DB954;font-size:2.5rem;}
+header p{color:#bbb;margin-top:5px;}
+nav ul{list-style:none;display:flex;justify-content:center;gap:20px;margin:15px 0;}
+nav ul li a{color:#ccc;text-decoration:none;font-weight:600;}
+nav ul li a:hover{color:#1DB954;}
+main{max-width:1100px;margin:0 auto;padding:15px;}
+.doutoras{display:flex;flex-wrap:wrap;gap:30px;justify-content:center;margin-bottom:50px;}
+.doutora{background:rgba(30,30,30,0.9);border-radius:15px;padding:20px;text-align:center;transition:all 0.3s ease;}
+.doutora:hover{transform:translateY(-5px);box-shadow:0 12px 35px #1DB954aa;}
+.doutora img{width:180px;height:180px;border-radius:50%;border:3px solid #1DB954;margin-bottom:15px;}
+.doutora h2{color:#1DB954;margin-bottom:10px;}
+.doutora p{margin-bottom:7px;font-style:italic;}
+.consultas{background:rgba(25,25,25,0.95);padding:25px 30px;border-radius:20px;box-shadow:0 10px 30px #000000cc;margin-bottom:50px;}
+.consultas h2{color:#1DB954;margin-bottom:20px;text-align:center;}
+.consultas ul{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;}
+.consultas li{background:#222;padding:12px;border-radius:12px;text-align:center;font-weight:600;cursor:pointer;transition:all 0.3s;}
+.consultas li:hover{background:#1DB954;color:#121212;}
+.desc-consulta{margin-top:15px;text-align:center;font-style:italic;color:#1DB954;font-weight:600;}
+.agendamento{background:rgba(20,20,20,0.95);padding:25px;border-radius:20px;box-shadow:0 10px 30px #000000cc;margin-bottom:50px;}
+.agendamento h2{color:#1DB954;text-align:center;margin-bottom:20px;}
+form input, form select, form button{width:100%;padding:10px;margin-bottom:10px;border-radius:10px;border:none;background:#333;color:#eee;}
+form button{background:#1DB954;font-weight:700;cursor:pointer;}
+form button:hover{background:#17a34a;}
+.calendario{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:15px;}
+.dia{padding:10px;background:#222;text-align:center;border-radius:8px;cursor:pointer;transition:all 0.2s;}
+.dia:hover{background:#1DB954;color:#121212;}
+.dia.selecionado{border:2px solid #1DB954;}
+.horarios{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:15px;}
+.hora{padding:8px 12px;background:#222;border-radius:8px;cursor:pointer;}
+.hora:hover{background:#1DB954;color:#121212;}
+.hora.selecionado{border:2px solid #1DB954;}
+.hora.ocupada{background:#444;color:#888;cursor:default;}
+.msg{text-align:center;font-weight:700;margin-top:10px;}
+#contato{background:rgba(25,25,25,0.95);padding:20px;border-radius:15px;box-shadow:0 8px 25px #000000cc;text-align:center;}
+#contato h2{color:#1DB954;margin-bottom:15px;}
+#contato a{text-decoration:none;font-weight:700;}
+#contato a[href^="tel"]{color:#00BFFF;}
+#contato a[href^="tel"]:hover{color:#1DA851;text-decoration:underline;}
+.mapa iframe{width:100%;height:320px;border-radius:12px;border:none;box-shadow:0 4px 15px #000;}
+footer{text-align:center;padding:20px;background:#121212;border-top:1px solid #222;color:#666;}
