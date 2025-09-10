@@ -184,7 +184,6 @@
       <div class="doutora">
         <img src="dra-lucelia.png" alt="Dra. Lucelia Silvana" />
         <h2>Dra. Lucelia Silvana</h2>
-        <p><em>28 anos</em></p>
         <p>"Um amor incondicional pela fisioterapia"</p>
         <p>Casada e mãe de José Ravi</p>
         <p>Uma das fundadoras do STUDIO LUA</p>
@@ -193,7 +192,6 @@
       <div class="doutora">
         <img src="dra-karina.png" alt="Dra. Karina" />
         <h2>Dra. Karina</h2>
-        <p><em>33 anos</em></p>
         <p>"Amo viajar, estar com minha família e amigos"</p>
         <p>Casada e mãe de Kauê</p>
         <p>"Amo cuidar de pessoas, minha missão e propósito"</p>
@@ -221,8 +219,17 @@
       <form id="form-agendamento">
         <label for="nome">Nome Completo:</label>
         <input type="text" id="nome" name="nome" required placeholder="Seu nome completo" />
+
         <label for="email">E-mail:</label>
         <input type="email" id="email" name="email" required placeholder="seu@email.com" />
+
+        <label for="doutora">Doutora:</label>
+        <select id="doutora" name="doutora" required>
+          <option value="" disabled selected>Selecione a doutora</option>
+          <option>Dra. Lucelia Silvana</option>
+          <option>Dra. Karina</option>
+        </select>
+
         <label for="consulta">Tipo de Consulta:</label>
         <select id="consulta" name="consulta" required>
           <option value="" disabled selected>Selecione a consulta</option>
@@ -233,10 +240,13 @@
           <option>Alta Performance</option>
           <option>Massoterapia</option>
         </select>
+
         <label for="data">Data:</label>
         <input type="date" id="data" name="data" required />
+
         <label for="hora">Hora:</label>
         <select id="hora" name="hora" required></select>
+
         <button type="submit">Agendar</button>
         <div class="msg" id="msg"></div>
       </form>
@@ -245,7 +255,6 @@
     <!-- Contato -->
     <section id="contato">
       <h2>Contato</h2>
-      <p>Telefone geral: <a href="tel:+5584921474232">(84) 92147-4232</a></p>
       <p>E-mail: <a href="mailto:contato@clinicarevolua.com">contato@clinicarevolua.com</a></p>
       <p>Instagram: <a href="https://www.instagram.com/revoluafisio/" target="_blank">@revoluafisio</a></p>
       <div class="mapa">
@@ -299,11 +308,12 @@
       e.preventDefault();
       const nome = form.nome.value.trim();
       const email = form.email.value.trim();
+      const doutora = form.doutora.value;
       const consulta = form.consulta.value;
       const data = form.data.value;
       const hora = selectHora.value;
 
-      if(!nome || !email || !consulta || !data || !hora){
+      if(!nome || !email || !doutora || !consulta || !data || !hora){
         msg.textContent = 'Por favor, preencha todos os campos.';
         msg.style.color = 'red';
         return;
@@ -316,8 +326,15 @@
         return;
       }
 
-      const telefone = '5584921474232';
-      const mensagem = `Olá, gostaria de agendar uma consulta.\n\nNome: ${nome}\nE-mail: ${email}\nConsulta: ${consulta}\nData: ${data}\nHora: ${hora}`;
+      // Seleciona o número de WhatsApp de acordo com a doutora
+      let telefone = '';
+      if(doutora === 'Dra. Lucelia Silvana'){
+        telefone = '5584921474232';
+      } else if(doutora === 'Dra. Karina'){
+        telefone = '558488731827';
+      }
+
+      const mensagem = `Olá, gostaria de agendar uma consulta.\n\nNome: ${nome}\nE-mail: ${email}\nDoutora: ${doutora}\nConsulta: ${consulta}\nData: ${data}\nHora: ${hora}`;
       const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
 
       horariosAgendados.push(hora);
