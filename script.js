@@ -1,14 +1,22 @@
+// Mostrar descrição das consultas
+const consultasLi = document.querySelectorAll('.consultas li');
+const descDiv = document.getElementById('desc-consulta');
+consultasLi.forEach(li=>{
+  li.addEventListener('mouseenter',()=>descDiv.textContent=li.dataset.desc);
+  li.addEventListener('mouseleave',()=>descDiv.textContent='');
+});
+
+// Calendário e horários
 const hoje = new Date();
 const diasSemana = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
 const horarios = [];
-for(let h=8; h<=19; h++) horarios.push(h.toString().padStart(2,'0')+":00");
+for(let h=8;h<=19;h++) horarios.push(h.toString().padStart(2,'0')+":00");
 
-let agendamentos = {}; // Armazenar horários ocupados
-
+let agendamentos = {};
 const calendario = document.getElementById('calendario');
 const horariosDiv = document.getElementById('horarios');
-let dataSelecionada = null;
-let horaSelecionada = null;
+let dataSelecionada=null;
+let horaSelecionada=null;
 
 function gerarCalendario(){
   calendario.innerHTML='';
@@ -19,7 +27,7 @@ function gerarCalendario(){
     const div = document.createElement('div');
     div.classList.add('dia');
     div.dataset.date=diaStr;
-    div.textContent = dia.getDate();
+    div.textContent=dia.getDate();
     div.title=diasSemana[dia.getDay()];
     div.addEventListener('click',()=>selecionarDia(div));
     calendario.appendChild(div);
@@ -38,7 +46,7 @@ function selecionarDia(div){
 function gerarHorarios(data){
   horariosDiv.innerHTML='';
   horarios.forEach(h=>{
-    const btn = document.createElement('div');
+    const btn=document.createElement('div');
     btn.textContent=h;
     btn.classList.add('hora');
     if(agendamentos[data] && agendamentos[data].includes(h)){
@@ -57,21 +65,20 @@ function selecionarHora(btn){
 }
 
 // Formulário
-const form = document.getElementById('form-agendamento');
-const msg = document.getElementById('msg');
+const form=document.getElementById('form-agendamento');
+const msg=document.getElementById('msg');
 
-form.addEventListener('submit', e=>{
+form.addEventListener('submit',e=>{
   e.preventDefault();
-  const nome = document.getElementById('nome').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const consulta = document.getElementById('consulta').value;
+  const nome=document.getElementById('nome').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const consulta=document.getElementById('consulta').value;
 
-  if(!nome || !email || !consulta || !dataSelecionada || !horaSelecionada){
+  if(!nome||!email||!consulta||!dataSelecionada||!horaSelecionada){
     msg.textContent="Preencha todos os campos, dia e horário!";
     msg.style.color='red';
     return;
   }
-
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
     msg.textContent="Insira um e-mail válido!";
     msg.style.color='red';
@@ -82,12 +89,12 @@ form.addEventListener('submit', e=>{
   agendamentos[dataSelecionada].push(horaSelecionada);
   gerarHorarios(dataSelecionada);
 
-  const numero = "5584921474232";
+  const numero="5584921474232";
   const texto=`Agendamento:%0ANome: ${nome}%0AEmail: ${email}%0AConsulta: ${consulta}%0AData: ${dataSelecionada}%0AHora: ${horaSelecionada}`;
-  window.open(`https://wa.me/${numero}?text=${texto}`, '_blank');
+  window.open(`https://wa.me/${numero}?text=${texto}`,'_blank');
 
   msg.textContent="Agendamento enviado via WhatsApp!";
-  msg.style.color='#1DB954';
+  msg.style.color="#1DB954";
   form.reset();
   dataSelecionada=null;
   horaSelecionada=null;
