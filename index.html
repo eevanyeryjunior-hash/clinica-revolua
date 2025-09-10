@@ -1,24 +1,75 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>REVOLUA - Agendamento Avançado</title>
-<link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REVOLUA - Drª Lucelia Silvana & Drª Karina</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header>
   <h1>REVOLUA</h1>
   <p>Av. Gov. Antônio de Melo e Souza, 20 - Potengi, Natal - RN</p>
+  <p>Atendimento: Domingo a sexta, 08:00 às 19:00 | Sábado: Fechado</p>
 </header>
+
+<nav>
+  <ul>
+    <li><a href="#inicio">Início</a></li>
+    <li><a href="#doutoras">Doutoras</a></li>
+    <li><a href="#consultas">Consultas</a></li>
+    <li><a href="#agendamento">Agendamento</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
 <main>
-  <section class="agendamento">
-    <h2>Agendamento Avançado</h2>
+  <!-- Doutoras -->
+  <section class="doutoras" id="doutoras">
+    <div class="doutora">
+      <img src="dra-lucelia.png.png" alt="Dra. Lucelia Silvana">
+      <h2>Dra. Lucelia Silvana</h2>
+      <p><em>28 anos</em></p>
+      <p>"Um amor incondicional pela fisioterapia"</p>
+      <p>Casada e mãe de José Ravi</p>
+      <p>Uma das fundadoras do STUDIO LUA</p>
+      <p>WhatsApp: <a href="https://wa.me/5584921474232" target="_blank">+55 84 92147-4232</a></p>
+    </div>
+    <div class="doutora">
+      <img src="dra-karina.png.png" alt="Dra. Karina">
+      <h2>Dra. Karina</h2>
+      <p><em>33 anos</em></p>
+      <p>"Amo viajar, estar com minha família e amigos"</p>
+      <p>Casada e mãe de Kauê</p>
+      <p>"Amo cuidar de pessoas, minha missão e propósito"</p>
+      <p>WhatsApp: <a href="https://wa.me/558488731827" target="_blank">+55 84 8873-1827</a></p>
+    </div>
+  </section>
+
+  <!-- Consultas -->
+  <section class="consultas" id="consultas">
+    <h2>Tipos de Consultas</h2>
+    <ul>
+      <li data-desc="Dry Needling é uma técnica avançada de fisioterapia invasiva.">Dry Needling</li>
+      <li data-desc="Crioterapia ajuda na recuperação muscular e redução de inflamação.">Crioterapia</li>
+      <li data-desc="Fisioterapia Ortopédica trata lesões e melhora a mobilidade.">Fisioterapia Ortopédica</li>
+      <li data-desc="Fisioterapia Dermato Funcional cuida da estética e saúde da pele.">Fisioterapia Dermato Funcional</li>
+      <li data-desc="Alta Performance melhora força, resistência e desempenho físico.">Alta Performance</li>
+      <li data-desc="Massoterapia relaxa músculos e promove bem-estar.">Massoterapia</li>
+    </ul>
+    <div class="desc-consulta" id="desc-consulta"></div>
+  </section>
+
+  <!-- Agendamento -->
+  <section class="agendamento" id="agendamento">
+    <h2>Agende sua Consulta</h2>
     <form id="form-agendamento">
       <label for="nome">Nome:</label>
-      <input type="text" id="nome" required placeholder="Seu nome completo" />
+      <input type="text" id="nome" placeholder="Seu nome completo" required>
+
       <label for="email">E-mail:</label>
-      <input type="email" id="email" required placeholder="seu@email.com" />
+      <input type="email" id="email" placeholder="seu@email.com" required>
+
       <label for="consulta">Consulta:</label>
       <select id="consulta" required>
         <option value="" disabled selected>Selecione</option>
@@ -34,26 +85,30 @@
       <div id="horarios" class="horarios"></div>
 
       <button type="submit">Agendar via WhatsApp</button>
-      <div class="msg" id="msg"></div>
+      <div id="msg" class="msg"></div>
     </form>
   </section>
 
+  <!-- Contato -->
   <section id="contato">
     <h2>Contato</h2>
     <p>Telefone: <a href="tel:+5584921474232">(84) 92147-4232</a></p>
     <p>E-mail: <a href="mailto:contato@clinicarevolua.com">contato@clinicarevolua.com</a></p>
     <p>Instagram: <a href="https://www.instagram.com/revoluafisio/" target="_blank">@revoluafisio</a></p>
     <div class="mapa">
-      <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.0326889290333!2d-35.2428432!3d-5.7460899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7b255675168c8f5%3A0x8dd4e8e7b1f1d7b!2sAv.%20Gov.%20Ant%C3%B4nio%20de%20Melo%20e%20Souza%20-%20Potengi%2C%20Natal%20-%20RN%2C%2059125-090!5e0!3m2!1spt-BR!2sbr!4v1694250000000!5m2!1spt-BR!2sbr" 
-        allowfullscreen 
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.0326889290333!2d-35.2428432!3d-5.7460899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7b255675168c8f5%3A0x8dd4e8e7b1f1d7b!2sAv.%20Gov.%20Ant%C3%B4nio%20de%20Melo%20e%20Souza%20-%20Potengi%2C%20Natal%20-%20RN%2C%2059125-090!5e0!3m2!1spt-BR!2sbr!4v1694250000000!5m2!1spt-BR!2sbr"
+        allowfullscreen
         loading="lazy">
       </iframe>
     </div>
   </section>
 </main>
+
+<footer>
+  &copy; 2025 REVOLUA - Todos os direitos reservados.
+</footer>
+
 <script src="script.js"></script>
 </body>
 </html>
-
-
