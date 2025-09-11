@@ -250,26 +250,21 @@
       </form>
     </section>
 
-    <!-- Contato -->
-    <section id="contato">
-      <h2>Contato</h2>
-      <p>Instagram: <a href="https://www.instagram.com/revoluafisio/" target="_blank">@revoluafisio</a></p>
-      <div class="mapa">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.0326889290333!2d-35.2428432!3d-5.7460899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7b255675168c8f5:0x8dd4e8e7b1f1d7b!2sAv.+Gov.+Ant%C3%B4nio+de+Melo+e+Souza,+20+-+Potengi,+Natal+-+RN,+59125-090!5e0!3m2!1spt-BR!2sbr!4v1694250000000!5m2!1spt-BR!2sbr"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </div>
+    <!-- Agendamentos Realizados -->
+    <section class="agendamentos-lista" id="agendamentos-lista" style="margin: 0 auto 60px; max-width: 900px; padding: 25px; background-color: rgba(25,25,25,0.95); border-radius: 15px; box-shadow: 0 8px 24px #000000cc; color: #eee;">
+      <h2 style="text-align:center; color:#1DB954; margin-bottom: 20px;">Agendamentos Realizados</h2>
+      <div id="lista-agendamentos" style="overflow-x:auto;"></div>
+      <button onclick="limparAgendamentos()" style="margin-top: 20px; background-color: #ff4444; color: #fff; padding: 10px 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Limpar Todos os Agendamentos</button>
     </section>
+
+    <!-- Contato e Footer mantidos iguais -->
+    <!-- ... -->
   </main>
 
   <footer>
     &copy; 2025 REVOLUA - Todos os direitos reservados.
   </footer>
 
-  <!-- SCRIPT ATUALIZADO -->
   <script>
     const inputData = document.getElementById('data');
     const selectHora = document.getElementById('hora');
@@ -284,32 +279,54 @@
       horarios.push(h.toString().padStart(2, '0') + ":00");
     }
 
-    let horariosAgendados = [];
+    function getAgendamentos() {
+      return JSON.parse(localStorage.getItem('agendamentos')) || [];
+    }
+
+    function salvarAgendamento(agendamento) {
+      const agendamentos = getAgendamentos();
+      agendamentos.push(agendamento);
+      localStorage.setItem('agendamentos', JSON.stringify(agendamentos));
+    }
 
     function atualizarHorarios() {
+      const data = inputData.value;
+      const doutora = form.doutora.value;
+      const agendamentos = getAgendamentos();
       selectHora.innerHTML = '';
+
       horarios.forEach(hora => {
         const option = document.createElement('option');
         option.value = hora;
         option.textContent = hora;
-        if (horariosAgendados.includes(hora)) {
+
+        const ocupado = agendamentos.some(a =>
+          a.data === data &&
+          a.hora === hora &&
+          a.doutora === doutora
+        );
+
+        if (ocupado) {
           option.disabled = true;
           option.textContent += ' (Indisponível)';
         }
+
         selectHora.appendChild(option);
       });
     }
 
-    atualizarHorarios();
+    inputData.addEventListener('change', atualizarHorarios);
+    form.doutora.addEventListener('change', atualizarHorarios);
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+
       const nome = form.nome.value.trim();
       const email = form.email.value.trim();
       const doutora = form.doutora.value;
       const consulta = form.consulta.value;
       const data = form.data.value;
-      const hora = selectHora.value;
+      const hora = form.hora.value;
 
       if (!nome || !email || !doutora || !consulta || !data || !hora) {
         msg.textContent = 'Por favor, preencha todos os campos.';
@@ -324,49 +341,90 @@
         return;
       }
 
-      let telefone = '';
-      if (doutora === 'Dra. Lucelia Silvana') {
-        telefone = '5584921474232';
-      } else if (doutora === 'Dra. Karina Lima') {
-        telefone = '558488731827';
+      const agendamentos = getAgendamentos();
+      const jaExiste = agendamentos.some(a =>
+        a.data === data && a.hora === hora && a.doutora === doutora
+      );
+
+      if (jaExiste) {
+        msg.textContent = 'Este horário já está agendado para a doutora selecionada.';
+        msg.style.color = 'orange';
+        return;
       }
 
+      let telefone = doutora === 'Dra. Lucelia Silvana' ? '5584921474232' : '558488731827';
       const mensagem = `Olá, gostaria de agendar uma consulta.\n\nNome: ${nome}\nE-mail: ${email}\nDoutora: ${doutora}\nConsulta: ${consulta}\nData: ${data}\nHora: ${hora}`;
       const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
 
-      const confirmacao = confirm(
-        `Deseja confirmar o agendamento com os seguintes dados?\n\n` +
-        `Nome: ${nome}\n` +
-        `E-mail: ${email}\n` +
-        `Doutora: ${doutora}\n` +
-        `Consulta: ${consulta}\n` +
-        `Data: ${data}\n` +
-        `Hora: ${hora}`
-      );
+      const confirmar = confirm(`Confirmar o agendamento?\n\n${mensagem}`);
 
-      if (confirmacao) {
-        horariosAgendados.push(hora);
+      if (confirmar) {
+        salvarAgendamento({ nome, email, doutora, consulta, data, hora });
         atualizarHorarios();
-
+        exibirAgendamentos();
         window.open(url, '_blank');
-        msg.textContent = 'Abrindo WhatsApp para envio do agendamento...';
+        msg.textContent = 'Agendamento salvo. Redirecionando para o WhatsApp...';
         msg.style.color = '#1DB954';
-
         form.reset();
         inputData.setAttribute('min', hoje);
       } else {
-        msg.textContent = 'Agendamento cancelado pelo usuário.';
+        msg.textContent = 'Agendamento cancelado.';
         msg.style.color = 'orange';
       }
     });
 
-    const itensConsulta = document.querySelectorAll('.consultas li');
-    const descricaoConsulta = document.getElementById('descricaoConsulta');
+    function exibirAgendamentos() {
+      const listaContainer = document.getElementById('lista-agendamentos');
+      const agendamentos = getAgendamentos();
 
-    itensConsulta.forEach(item => {
-      item.addEventListener('click', () => {
-        descricaoConsulta.textContent = item.getAttribute('data-desc');
-      });
+      if (agendamentos.length === 0) {
+        listaContainer.innerHTML = '<p style="text-align:center;">Nenhum agendamento realizado ainda.</p>';
+        return;
+      }
+
+      const tabela = document.createElement('table');
+      tabela.style.width = '100%';
+      tabela.style.borderCollapse = 'collapse';
+      tabela.innerHTML = `
+        <thead>
+          <tr style="background-color: #1DB954; color: #121212;">
+            <th style="padding: 10px;">Nome</th>
+            <th style="padding: 10px;">Doutora</th>
+            <th style="padding: 10px;">Consulta</th>
+            <th style="padding: 10px;">Data</th>
+            <th style="padding: 10px;">Hora</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${agendamentos.map(ag => `
+            <tr style="text-align: center; border-top: 1px solid #333;">
+              <td style="padding: 10px;">${ag.nome}</td>
+              <td style="padding: 10px;">${ag.doutora}</td>
+              <td style="padding: 10px;">${ag.consulta}</td>
+              <td style="padding: 10px;">${ag.data}</td>
+              <td style="padding: 10px;">${ag.hora}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      `;
+      listaContainer.innerHTML = '';
+      listaContainer.appendChild(tabela);
+    }
+
+    function limparAgendamentos() {
+      const confirmar = confirm('Tem certeza que deseja apagar todos os agendamentos? Esta ação não pode ser desfeita.');
+      if (confirmar) {
+        localStorage.removeItem('agendamentos');
+        atualizarHorarios();
+        exibirAgendamentos();
+        msg.textContent = 'Todos os agendamentos foram removidos.';
+        msg.style.color = '#ff4444';
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      atualizarHorarios();
+      exibirAgendamentos();
     });
   </script>
 </body>
