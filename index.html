@@ -166,7 +166,7 @@
   <header>
     <h1>REVOLUA</h1>
     <p>Av. Gov. Antônio de Melo e Souza, 20 - Potengi, Natal - RN, 59125-090</p>
-    <p>Atendimento: Domingo a sexta-feira, 08h00 às 19h00 | Sábado: Fechado</p>
+    <p>Atendimento: Domingo a sexta, 08:00 às 19:00 | Sábado: Fechado</p>
   </header>
 
   <nav>
@@ -184,7 +184,7 @@
       <div class="doutora">
         <img src="dra-lucelia.png" alt="Dra. Lucelia Silvana" />
         <h2>Dra. Lucelia Silvana</h2>
-        <p>"Tenho um amor incondicional pela fisioterapia"</p>
+        <p>"Um amor incondicional pela fisioterapia"</p>
         <p>Casada e mãe de José Ravi</p>
         <p>WhatsApp: <a href="https://wa.me/5584921474232" target="_blank">+55 84 92147-4232</a></p>
       </div>
@@ -204,7 +204,7 @@
         <li data-desc="Dry needling é uma técnica de fisioterapia que utiliza agulhas para aliviar dores musculares.">Dry needling</li>
         <li data-desc="Crioterapia consiste em tratamentos com frio para reduzir inflamações e dores.">Crioterapia</li>
         <li data-desc="Fisioterapia Ortopédica ajuda na recuperação de lesões musculoesqueléticas e articulares.">Fisioterapia Ortopédica</li>
-        <li data-desc="Fisioterapia Dermato Funcional foca na estética e saúde da pele, como redução de celulite e flacidez.">Fisioterapia Dermatofuncional</li>
+        <li data-desc="Fisioterapia Dermato Funcional foca na estética e saúde da pele, como redução de celulite e flacidez.">Fisioterapia Dermato Funcional</li>
         <li data-desc="Alta Performance é voltada para atletas e pessoas que buscam otimizar seu desempenho físico.">Alta Performance</li>
         <li data-desc="Massoterapia envolve técnicas de massagem terapêutica para relaxamento e alívio de tensões.">Massoterapia</li>
       </ul>
@@ -234,7 +234,7 @@
           <option>Dry needling</option>
           <option>Crioterapia</option>
           <option>Fisioterapia Ortopédica</option>
-          <option>Fisioterapia Dermatofuncional</option>
+          <option>Fisioterapia Dermato Funcional</option>
           <option>Alta Performance</option>
           <option>Massoterapia</option>
         </select>
@@ -262,23 +262,15 @@
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
-    <!-- Agendamentos Realizados -->
-    <section class="agendamentos-lista" id="agendamentos-lista" style="margin: 0 auto 60px; max-width: 900px; padding: 25px; background-color: rgba(25,25,25,0.95); border-radius: 15px; box-shadow: 0 8px 24px #000000cc; color: #eee;">
-      <h2 style="text-align:center; color:#1DB954; margin-bottom: 20px;">Agendamentos Realizados</h2>
-      <div id="lista-agendamentos" style="overflow-x:auto;"></div>
-      <button onclick="limparAgendamentos()" style="margin-top: 20px; background-color: #ff4444; color: #fff; padding: 10px 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Limpar Todos os Agendamentos</button>
     </section>
-
-    <!-- Contato e Footer mantidos iguais -->
-    <!-- ... -->
   </main>
 
   <footer>
     &copy; 2025 REVOLUA - Todos os direitos reservados.
   </footer>
 
-  <!-- SCRIPT ATUALIZADO -->
   <script>
+    // Horários de agendamento
     const inputData = document.getElementById('data');
     const selectHora = document.getElementById('hora');
     const form = document.getElementById('form-agendamento');
@@ -288,187 +280,83 @@
     inputData.setAttribute('min', hoje);
 
     const horarios = [];
-    for (let h = 8; h <= 19; h++) {
-      horarios.push(h.toString().padStart(2, '0') + ":00");
+    for(let h=8; h<=19; h++){
+      horarios.push(h.toString().padStart(2,'0') + ":00");
     }
 
     let horariosAgendados = [];
-    function getAgendamentos() {
-      return JSON.parse(localStorage.getItem('agendamentos')) || [];
-    }
 
-    function salvarAgendamento(agendamento) {
-      const agendamentos = getAgendamentos();
-      agendamentos.push(agendamento);
-      localStorage.setItem('agendamentos', JSON.stringify(agendamentos));
-    }
-
-    function atualizarHorarios() {
-      const data = inputData.value;
-      const doutora = form.doutora.value;
-      const agendamentos = getAgendamentos();
-      selectHora.innerHTML = '';
-
-      horarios.forEach(hora => {
+    function atualizarHorarios(){
+      selectHora.innerHTML='';
+      horarios.forEach(hora=>{
         const option = document.createElement('option');
         option.value = hora;
         option.textContent = hora;
-        if (horariosAgendados.includes(hora)) {
-
-        const ocupado = agendamentos.some(a =>
-          a.data === data &&
-          a.hora === hora &&
-          a.doutora === doutora
-        );
-
-        if (ocupado) {
+        if(horariosAgendados.includes(hora)){
           option.disabled = true;
           option.textContent += ' (Indisponível)';
         }
-
         selectHora.appendChild(option);
       });
     }
-
     atualizarHorarios();
-    inputData.addEventListener('change', atualizarHorarios);
-    form.doutora.addEventListener('change', atualizarHorarios);
 
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', function(e){
       e.preventDefault();
-
       const nome = form.nome.value.trim();
       const email = form.email.value.trim();
       const doutora = form.doutora.value;
       const consulta = form.consulta.value;
       const data = form.data.value;
       const hora = selectHora.value;
-      const hora = form.hora.value;
 
-      if (!nome || !email || !doutora || !consulta || !data || !hora) {
+      if(!nome || !email || !doutora || !consulta || !data || !hora){
         msg.textContent = 'Por favor, preencha todos os campos.';
         msg.style.color = 'red';
         return;
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
+      if(!emailRegex.test(email)){
         msg.textContent = 'Por favor, insira um e-mail válido.';
         msg.style.color = 'red';
         return;
       }
 
+      // Seleciona o número de WhatsApp de acordo com a doutora
       let telefone = '';
-      if (doutora === 'Dra. Lucelia Silvana') {
+      if(doutora === 'Dra. Lucelia Silvana'){
         telefone = '5584921474232';
-      } else if (doutora === 'Dra. Karina Lima') {
+      } else if(doutora === 'Dra. Karina Lima'){
         telefone = '558488731827';
-      const agendamentos = getAgendamentos();
-      const jaExiste = agendamentos.some(a =>
-        a.data === data && a.hora === hora && a.doutora === doutora
-      );
-
-      if (jaExiste) {
-        msg.textContent = 'Este horário já está agendado para a doutora selecionada.';
-        msg.style.color = 'orange';
-        return;
       }
 
-      let telefone = doutora === 'Dra. Lucelia Silvana' ? '5584921474232' : '558488731827';
       const mensagem = `Olá, gostaria de agendar uma consulta.\n\nNome: ${nome}\nE-mail: ${email}\nDoutora: ${doutora}\nConsulta: ${consulta}\nData: ${data}\nHora: ${hora}`;
       const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
 
-      const confirmacao = confirm(
-        `Deseja confirmar o agendamento com os seguintes dados?\n\n` +
-        `Nome: ${nome}\n` +
-        `E-mail: ${email}\n` +
-        `Doutora: ${doutora}\n` +
-        `Consulta: ${consulta}\n` +
-        `Data: ${data}\n` +
-        `Hora: ${hora}`
-      );
-      const confirmar = confirm(`Confirmar o agendamento?\n\n${mensagem}`);
+      horariosAgendados.push(hora);
+      atualizarHorarios();
 
-      if (confirmacao) {
-        horariosAgendados.push(hora);
-      if (confirmar) {
-        salvarAgendamento({ nome, email, doutora, consulta, data, hora });
-        atualizarHorarios();
+      window.open(url, '_blank');
+      msg.textContent = 'Abrindo WhatsApp para envio do agendamento...';
+      msg.style.color = '#1DB954';
 
-        exibirAgendamentos();
-        window.open(url, '_blank');
-        msg.textContent = 'Abrindo WhatsApp para envio do agendamento...';
-        msg.textContent = 'Agendamento salvo. Redirecionando para o WhatsApp...';
-        msg.style.color = '#1DB954';
-
-        form.reset();
-        inputData.setAttribute('min', hoje);
-      } else {
-        msg.textContent = 'Agendamento cancelado pelo usuário.';
-        msg.textContent = 'Agendamento cancelado.';
-        msg.style.color = 'orange';
-      }
+      form.reset();
+      inputData.setAttribute('min', hoje);
     });
 
+    // Mostrar descrição ao clicar na consulta
     const itensConsulta = document.querySelectorAll('.consultas li');
     const descricaoConsulta = document.getElementById('descricaoConsulta');
-    function exibirAgendamentos() {
-      const listaContainer = document.getElementById('lista-agendamentos');
-      const agendamentos = getAgendamentos();
 
     itensConsulta.forEach(item => {
       item.addEventListener('click', () => {
         descricaoConsulta.textContent = item.getAttribute('data-desc');
       });
-      if (agendamentos.length === 0) {
-        listaContainer.innerHTML = '<p style="text-align:center;">Nenhum agendamento realizado ainda.</p>';
-        return;
-      }
-
-      const tabela = document.createElement('table');
-      tabela.style.width = '100%';
-      tabela.style.borderCollapse = 'collapse';
-      tabela.innerHTML = `
-        <thead>
-          <tr style="background-color: #1DB954; color: #121212;">
-            <th style="padding: 10px;">Nome</th>
-            <th style="padding: 10px;">Doutora</th>
-            <th style="padding: 10px;">Consulta</th>
-            <th style="padding: 10px;">Data</th>
-            <th style="padding: 10px;">Hora</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${agendamentos.map(ag => `
-            <tr style="text-align: center; border-top: 1px solid #333;">
-              <td style="padding: 10px;">${ag.nome}</td>
-              <td style="padding: 10px;">${ag.doutora}</td>
-              <td style="padding: 10px;">${ag.consulta}</td>
-              <td style="padding: 10px;">${ag.data}</td>
-              <td style="padding: 10px;">${ag.hora}</td>
-            </tr>
-          `).join('')}
-        </tbody>
-      `;
-      listaContainer.innerHTML = '';
-      listaContainer.appendChild(tabela);
-    }
-
-    function limparAgendamentos() {
-      const confirmar = confirm('Tem certeza que deseja apagar todos os agendamentos? Esta ação não pode ser desfeita.');
-      if (confirmar) {
-        localStorage.removeItem('agendamentos');
-        atualizarHorarios();
-        exibirAgendamentos();
-        msg.textContent = 'Todos os agendamentos foram removidos.';
-        msg.style.color = '#ff4444';
-      }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      atualizarHorarios();
-      exibirAgendamentos();
     });
   </script>
 </body>
 </html>
+
+
+
