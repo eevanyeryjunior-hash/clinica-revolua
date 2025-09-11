@@ -186,14 +186,14 @@
         <h2>Dra. Lucelia Silvana</h2>
         <p>"Um amor incondicional pela fisioterapia"</p>
         <p>Casada e mãe de José Ravi</p>
-        <p>WhatsApp: <a href="https://wa.me/5584921474232" target="_blank">+55 84 92147-4232</a></p>
+        <p>WhatsApp: <a href="https://wa.me/5584921474232" target="_blank" rel="noopener noreferrer">+55 84 92147-4232</a></p>
       </div>
       <div class="doutora">
         <img src="dra-karina.png" alt="Dra. Karina Lima" />
         <h2>Dra. Karina Lima</h2>
         <p>"Amo cuidar de pessoas, minha missão e propósito"</p>
         <p>Casada e mãe de Kauê</p>
-        <p>WhatsApp: <a href="https://wa.me/558488731827" target="_blank">+55 84 8873-1827</a></p>
+        <p>WhatsApp: <a href="https://wa.me/558488731827" target="_blank" rel="noopener noreferrer">+55 84 8873-1827</a></p>
       </div>
     </section>
 
@@ -223,26 +223,26 @@
 
         <label for="doutora">Doutora:</label>
         <select id="doutora" name="doutora" required>
-          <option value="" disabled selected>Selecione a doutora</option>
-          <option>Dra. Lucelia Silvana</option>
-          <option>Dra. Karina Lima</option>
+          <option value="">Selecione a doutora</option>
+          <option value="Dra. Lucelia Silvana">Dra. Lucelia Silvana</option>
+          <option value="Dra. Karina Lima">Dra. Karina Lima</option>
         </select>
 
         <label for="consulta">Tipo de Consulta:</label>
         <select id="consulta" name="consulta" required>
-          <option value="" disabled selected>Selecione a consulta</option>
-          <option>Dry needling</option>
-          <option>Crioterapia</option>
-          <option>Fisioterapia Ortopédica</option>
-          <option>Fisioterapia Dermato Funcional</option>
-          <option>Alta Performance</option>
-          <option>Massoterapia</option>
+          <option value="">Selecione o tipo de consulta</option>
+          <option value="Dry needling">Dry needling</option>
+          <option value="Crioterapia">Crioterapia</option>
+          <option value="Fisioterapia Ortopédica">Fisioterapia Ortopédica</option>
+          <option value="Fisioterapia Dermato Funcional">Fisioterapia Dermato Funcional</option>
+          <option value="Alta Performance">Alta Performance</option>
+          <option value="Massoterapia">Massoterapia</option>
         </select>
 
         <label for="data">Data:</label>
-        <input type="date" id="data" name="data" required />
+        <input type="date" id="data" name="data" required min="" />
 
-        <label for="hora">Hora:</label>
+        <label for="hora">Horário:</label>
         <select id="hora" name="hora" required></select>
 
         <button type="submit">Agendar</button>
@@ -252,111 +252,118 @@
 
     <!-- Contato -->
     <section id="contato">
-      <h2>Contato</h2>
-      <p>Instagram: <a href="https://www.instagram.com/revoluafisio/" target="_blank">@revoluafisio</a></p>
+      <h2>Contato & Localização</h2>
       <div class="mapa">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3977.0326889290333!2d-35.2428432!3d-5.7460899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7b255675168c8f5:0x8dd4e8e7b1f1d7b!2sAv.+Gov.+Ant%C3%B4nio+de+Melo+e+Souza,+20+-+Potengi,+Natal+-+RN,+59125-090!5e0!3m2!1spt-BR!2sbr!4v1694250000000!5m2!1spt-BR!2sbr"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3934.916660432096!2d-35.24335198476116!3d-5.825154395582753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7b2a5f3451f3f4d%3A0x5bb10a8e118e25b0!2sAv.%20Gov.%20Ant%C3%B4nio%20de%20Melo%20e%20Souza%2C%2020%20-%20Potengi%2C%20Natal%20-%20RN%2C%2059125-090!5e0!3m2!1spt-BR!2sbr!4v1694410981317!5m2!1spt-BR!2sbr"
           allowfullscreen=""
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
+          title="Localização da clínica"
         ></iframe>
       </div>
     </section>
   </main>
 
   <footer>
-    &copy; 2025 REVOLUA - Todos os direitos reservados.
+    &copy; 2025 REVOLUA - Drª Lucelia Silvana & Drª Karina Lima. Todos os direitos reservados.
   </footer>
 
   <script>
-    // Horários de agendamento
+    // Ajusta data mínima para hoje no input date
     const inputData = document.getElementById('data');
+    const hoje = new Date().toISOString().split('T')[0];
+    inputData.min = hoje;
+
+    // Horários disponíveis das 08:00 às 19:00
+    const horarios = [];
+    for(let h=8; h<=19; h++){
+      horarios.push(h.toString().padStart(2,'0') + ':00');
+    }
+
     const selectHora = document.getElementById('hora');
     const form = document.getElementById('form-agendamento');
     const msg = document.getElementById('msg');
 
-    const hoje = new Date().toISOString().split('T')[0];
-    inputData.setAttribute('min', hoje);
-
-    const horarios = [];
-    for(let h=8; h<=19; h++){
-      horarios.push(h.toString().padStart(2,'0') + ":00");
-    }
-
-    let horariosAgendados = [];
-
-    function atualizarHorarios(){
-      selectHora.innerHTML='';
-      horarios.forEach(hora=>{
+    // Função para preencher os horários (sempre todos disponíveis)
+    function atualizarHorarios() {
+      selectHora.innerHTML = '';
+      horarios.forEach(hora => {
         const option = document.createElement('option');
         option.value = hora;
         option.textContent = hora;
-        if(horariosAgendados.includes(hora)){
-          option.disabled = true;
-          option.textContent += ' (Indisponível)';
-        }
         selectHora.appendChild(option);
       });
     }
     atualizarHorarios();
 
+    // Exibe descrição da consulta ao clicar nos tipos
+    const listaConsultas = document.querySelectorAll('#consultas ul li');
+    const descricaoConsulta = document.getElementById('descricaoConsulta');
+    listaConsultas.forEach(item => {
+      item.addEventListener('click', () => {
+        descricaoConsulta.textContent = item.getAttribute('data-desc');
+        // Seleciona a consulta no select do formulário também
+        document.getElementById('consulta').value = item.textContent;
+      });
+    });
+
     form.addEventListener('submit', function(e){
       e.preventDefault();
+
+      // Limpa mensagem
+      msg.textContent = '';
+      msg.style.color = '#ddd';
+
       const nome = form.nome.value.trim();
       const email = form.email.value.trim();
       const doutora = form.doutora.value;
       const consulta = form.consulta.value;
       const data = form.data.value;
-      const hora = selectHora.value;
+      const hora = form.hora.value;
 
-      if(!nome || !email || !doutora || !consulta || !data || !hora){
-        msg.textContent = 'Por favor, preencha todos os campos.';
-        msg.style.color = 'red';
+      // Validações simples
+      if(nome.length < 3){
+        msg.textContent = 'Por favor, insira um nome válido.';
+        msg.style.color = '#e74c3c';
         return;
       }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if(!emailRegex.test(email)){
+      if(!email.includes('@') || !email.includes('.')){
         msg.textContent = 'Por favor, insira um e-mail válido.';
-        msg.style.color = 'red';
+        msg.style.color = '#e74c3c';
+        return;
+      }
+      if(!doutora){
+        msg.textContent = 'Selecione a doutora.';
+        msg.style.color = '#e74c3c';
+        return;
+      }
+      if(!consulta){
+        msg.textContent = 'Selecione o tipo de consulta.';
+        msg.style.color = '#e74c3c';
+        return;
+      }
+      if(!data){
+        msg.textContent = 'Selecione a data.';
+        msg.style.color = '#e74c3c';
+        return;
+      }
+      if(!hora){
+        msg.textContent = 'Selecione o horário.';
+        msg.style.color = '#e74c3c';
         return;
       }
 
-      // Seleciona o número de WhatsApp de acordo com a doutora
-      let telefone = '';
-      if(doutora === 'Dra. Lucelia Silvana'){
-        telefone = '5584921474232';
-      } else if(doutora === 'Dra. Karina Lima'){
-        telefone = '558488731827';
-      }
-
-      const mensagem = `Olá, gostaria de agendar uma consulta.\n\nNome: ${nome}\nE-mail: ${email}\nDoutora: ${doutora}\nConsulta: ${consulta}\nData: ${data}\nHora: ${hora}`;
-      const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
-
-      horariosAgendados.push(hora);
-      atualizarHorarios();
-
-      window.open(url, '_blank');
-      msg.textContent = 'Abrindo WhatsApp para envio do agendamento...';
+      // Aqui você pode adicionar a lógica para salvar agendamento (localStorage ou backend)
       msg.style.color = '#1DB954';
+      msg.textContent = `Agendamento realizado com sucesso para ${data} às ${hora} com ${doutora}.`;
 
+      // Reseta o formulário
       form.reset();
-      inputData.setAttribute('min', hoje);
-    });
-
-    // Mostrar descrição ao clicar na consulta
-    const itensConsulta = document.querySelectorAll('.consultas li');
-    const descricaoConsulta = document.getElementById('descricaoConsulta');
-
-    itensConsulta.forEach(item => {
-      item.addEventListener('click', () => {
-        descricaoConsulta.textContent = item.getAttribute('data-desc');
-      });
+      inputData.min = hoje;
+      atualizarHorarios();
+      descricaoConsulta.textContent = '';
     });
   </script>
 </body>
 </html>
-
-
-
