@@ -269,8 +269,8 @@
     &copy; 2025 REVOLUA - Todos os direitos reservados.
   </footer>
 
+  <!-- SCRIPT ATUALIZADO -->
   <script>
-    // Horários de agendamento
     const inputData = document.getElementById('data');
     const selectHora = document.getElementById('hora');
     const form = document.getElementById('form-agendamento');
@@ -280,28 +280,29 @@
     inputData.setAttribute('min', hoje);
 
     const horarios = [];
-    for(let h=8; h<=19; h++){
-      horarios.push(h.toString().padStart(2,'0') + ":00");
+    for (let h = 8; h <= 19; h++) {
+      horarios.push(h.toString().padStart(2, '0') + ":00");
     }
 
     let horariosAgendados = [];
 
-    function atualizarHorarios(){
-      selectHora.innerHTML='';
-      horarios.forEach(hora=>{
+    function atualizarHorarios() {
+      selectHora.innerHTML = '';
+      horarios.forEach(hora => {
         const option = document.createElement('option');
         option.value = hora;
         option.textContent = hora;
-        if(horariosAgendados.includes(hora)){
+        if (horariosAgendados.includes(hora)) {
           option.disabled = true;
           option.textContent += ' (Indisponível)';
         }
         selectHora.appendChild(option);
       });
     }
+
     atualizarHorarios();
 
-    form.addEventListener('submit', function(e){
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
       const nome = form.nome.value.trim();
       const email = form.email.value.trim();
@@ -310,42 +311,55 @@
       const data = form.data.value;
       const hora = selectHora.value;
 
-      if(!nome || !email || !doutora || !consulta || !data || !hora){
+      if (!nome || !email || !doutora || !consulta || !data || !hora) {
         msg.textContent = 'Por favor, preencha todos os campos.';
         msg.style.color = 'red';
         return;
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if(!emailRegex.test(email)){
+      if (!emailRegex.test(email)) {
         msg.textContent = 'Por favor, insira um e-mail válido.';
         msg.style.color = 'red';
         return;
       }
 
-      // Seleciona o número de WhatsApp de acordo com a doutora
       let telefone = '';
-      if(doutora === 'Dra. Lucelia Silvana'){
+      if (doutora === 'Dra. Lucelia Silvana') {
         telefone = '5584921474232';
-      } else if(doutora === 'Dra. Karina Lima'){
+      } else if (doutora === 'Dra. Karina Lima') {
         telefone = '558488731827';
       }
 
       const mensagem = `Olá, gostaria de agendar uma consulta.\n\nNome: ${nome}\nE-mail: ${email}\nDoutora: ${doutora}\nConsulta: ${consulta}\nData: ${data}\nHora: ${hora}`;
       const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
 
-      horariosAgendados.push(hora);
-      atualizarHorarios();
+      const confirmacao = confirm(
+        `Deseja confirmar o agendamento com os seguintes dados?\n\n` +
+        `Nome: ${nome}\n` +
+        `E-mail: ${email}\n` +
+        `Doutora: ${doutora}\n` +
+        `Consulta: ${consulta}\n` +
+        `Data: ${data}\n` +
+        `Hora: ${hora}`
+      );
 
-      window.open(url, '_blank');
-      msg.textContent = 'Abrindo WhatsApp para envio do agendamento...';
-      msg.style.color = '#1DB954';
+      if (confirmacao) {
+        horariosAgendados.push(hora);
+        atualizarHorarios();
 
-      form.reset();
-      inputData.setAttribute('min', hoje);
+        window.open(url, '_blank');
+        msg.textContent = 'Abrindo WhatsApp para envio do agendamento...';
+        msg.style.color = '#1DB954';
+
+        form.reset();
+        inputData.setAttribute('min', hoje);
+      } else {
+        msg.textContent = 'Agendamento cancelado pelo usuário.';
+        msg.style.color = 'orange';
+      }
     });
 
-    // Mostrar descrição ao clicar na consulta
     const itensConsulta = document.querySelectorAll('.consultas li');
     const descricaoConsulta = document.getElementById('descricaoConsulta');
 
@@ -357,7 +371,3 @@
   </script>
 </body>
 </html>
-
-
-
-
